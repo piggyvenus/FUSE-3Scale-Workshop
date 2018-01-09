@@ -1,0 +1,61 @@
+== Lab two - Creating APIs
+:imagesdir: img
+
+To expose this service as a HTTP API, We have to first replace our *Timer* with a *Restlet* Components.
+
+=== Delete the *Timer* component:
+
+Hover over the *Timer* component and when you see a delete and connection icon, click on the delete.
+
+
+image::delTimer.png[300,300]
+
+== Add and configure the Restlet component
+Find the *Restlet* component in palette window:
+
+image::FindRestlet.png[]
+
+Drag and drop the *Restlet* component into your route. If the component is not connected to the *SQL* component, connect them using the connector.
+
+=== Configuring the Restlet component:
+
+Click on the *Restlet* component and go to the *Advance* tab in the *Property* window. Select the *Path* tab, add "[aqua]*//localhost*" as the value of the Host, "[aqua]*8080*" for Port and "[aqua]*customer/{id}*" as the Uri Pattern values.
+
+The value of protocol can be selected from its dropdown. Select [blue]*http* as the protocol of your Restlet API.
+
+image::ConfRestlet.png[]
+
+Last we need to provide what methods your Restlet will be handling. Click on *Common* tab and select the [blue]*GET* from the Method dropdown list as it shown in the following picture.
+
+image::MethRestlet.png[]
+
+=== Update SQL configuration
+
+Click on the *sql* component and go to the *Advance* tab in the property window. Under *Path* tab, append "[aqua]** where customerID=:#id**" to the existing select statement.
+
+image::sql.png[]
+
+=== Start your rest API
+
+Right click on the *myfuselab* in the project explorer panel, select *Run As..* -> *Maven build* to start up the Camel application again.
+
+=== Test your API
+Run the following command in your command line console/Terminal.*(Terminal can be found under OS menu "Application -> Favorites", or by clicking on the terminal icon in JDS)*
+
+image::terminal2.png[]
+
+image::terminal.png[]
+
+```
+curl -i http://localhost:8080/customer/A01
+```
+
+Verify that it is returning the customer data in JSON format
+
+```
+[{"CUSTOMERID":"A01","VIPSTATUS":"Diamond","BALANCE":1000}]
+```
+
+Stop the application.
+
+image::stop.png[]

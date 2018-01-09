@@ -1,0 +1,153 @@
+## Lab one - Create your first SprintBoot Fuse project
+:imagesdir: img
+In JBoss Developer Studio, Create a new project by selecting the *File -> New -> Fuse Integration Project*
+
+image::01-FIS-project.png[]
+
+Enter [aqua]**myfuselab** as the project name, and click *Next*
+
+image::projectName.png[]
+
+[red]*NOTE:* You MUST select **2.18.1.redhat-000021** as the Camel Version!!
+
+Click *Next*
+
+image::02-runtime.png[]
+
+In Advance project setup, choose **Use a predefined template** and select **Fuse on OpenShift** -> **SprintBoot on OpenShift** and click *Finish*
+
+image::03-template.png[]
+
+JBDS will ask, if you want to change to Fuse perspective, click *Yes*.
+
+=== Create a development property file
+
+Under *src/main/resources* duplicate *application.properties* and with name [aqua]*application-dev.properties*, we are going to use this as the setting during our development time.
+You can make a copy by selecting the file and push *Ctrl+C* and *Ctrl+V*. You will be prompted to change the name.
+
+image::04-devproperties.png[]
+
+Open the newly created file (*application-dev.properties*) by double clicking on the file name in the *Project Explorer* window and
+append the following datasource configuration to the end of the file.
+
+```
+#tomcat ports
+server.port=9080
+#Database configuration
+spring.datasource.url = jdbc:h2:mem:mydb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+spring.datasource.username = sa
+spring.datasource.password =
+spring.datasource.driver-class-name = org.h2.Driver
+spring.datasource.platform = h2
+```
+
+image::propertie.png[]
+
+[red]*NOTE:* we are using H2 in memory database for testing. And thanks to autowiring in SpringBoot, it is now automatically loaded and wired as the default datasource to the Camel context.
+
+=== Create a SQL table
+
+Create a new file under *src/main/resources* by right clicking on the folder itself in the project explorer panel, then select **New** -> **Others** from the menu
+
+image::05-newfile.png[]
+
+Type [aqua]*file* as the filter text , then choose **File** under Genetal folder and click next,
+
+image::createFile.png[]
+
+In File, put [aqua]*schema.sql* as the file name, and make sure it's under the *myfuselab/src/main/resources* and click on *Finish*.
+
+image::06-schemasql.png[]
+
+Add the following SQL to **schema.sql**
+
+```
+CREATE TABLE customerdemo (
+	customerID varchar(10) NOT NULL,
+	vipStatus varchar(10) NOT NULL ,
+	balance integer NOT NULL
+);
+
+INSERT INTO customerdemo (customerID,vipStatus,balance) VALUES ('A01','Diamond',1000);
+INSERT INTO customerdemo (customerID,vipStatus,balance) VALUES ('A02','Gold',500);
+```
+
+image::07-sql.png[]
+
+Save your changes by clicking on the save icon on the Menu Bar or by pressing *Crtl+S*
+
+=== Clean the canvas
+
+Double click on the **camel-context.xml** file under **Camel Contexts folder**, you will see the canvas with a Camel Route.
+
+Select the Route by clicking anywhere on the blue background. you will see a delete icon on top of the Route. Click on the delete icon and delete the simple-Route in your canvas.
+
+image::08-deleteRoute.png[]
+
+=== Create a Route
+
+Create a new Route by dragging **Route** component from the *Routing* palette on the right. ReName the Route to [aqua]*customer* by changing the value of *Id* under the *Properties -> Detail* tab.
+
+image::09-Route.png[]
+
+=== Add components to our Route
+
+We will use *Timer* component to kick start our Route for now, drag the **TIMER** component from the *Components* palette on the right, and drag it to the Route.
+
+Under *Properties*-> *Advance* tab -> *Consumer*  tab, set **Repeat Count** to **1**
+
+you can save your camel-context.xml file by clicking on the save icon on the menu bar or simply by pushing *Ctrl+S*
+
+[red]*NOTE:* Make sure that the *Timer component* is selected by clicking on the timer component, otherwise you will not see the correct property tab.
+
+image::10-timer.png[]
+
+To read data from the datasource, select **SQL** component from the *Components* palette on the right to the Route. Under *Properties*-> *Advance* tab -> *Path*, set **Query** to [aqua]**select * from customerdemo**
+
+image::11-sqlcomponent.png[]
+
+and in *Common* tab set **Data Source** to [aqua]**dataSource**
+
+image::12-datasource.png[]
+
+And lastly select **LOG** component from the *Components* palette to the end of Route. Under *Properties*-> *Detail* tab, set **Message** to [aqua]**${body}**
+
+image::13-log.png[]
+
+Before we start the application, add the database driver dependency in the *pom.xml* file
+
+----
+...
+<properties>
+  ...
+  <run.profiles>dev</run.profiles>
+</properties>
+...
+
+<dependencies>
+	...
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    ...
+</dependencies>
+----
+
+[red]*NOTE:* Make sure all files have been saved by clicking on the *Save All* icon on the tool bar or by going to *File* menu and and pick *Save All*
+
+=== Start the Fuse application
+
+Right click on the **myfuselab** in the project explorer panel, select **Run As..** -> **Maven build...**
+
+image::14-mavenrun.png[]
+
+in the pop-up windown enter [aqua]**spring-boot:run** in *Goals* and select **Skip Tests**.
+
+image::15-springbootrun.png[]
+
+In your log console, verify that customer data is printed.
+```
+customer - [{CUSTOMERID=A01, VIPSTATUS=Diamond, BALANCE=1000}, {CUSTOMERID=A02, VIPSTATUS=Gold, BALANCE=500}]
+```

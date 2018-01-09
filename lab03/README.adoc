@@ -1,0 +1,310 @@
+= Lab three - Deploying to OpenShift
+
+== Start your OpenShift Cluster
+:imagesdir: img
+First, you will need to start your all-in-one OpenShift cluster.
+
+1. Open a Terminal window. (Figure 1)
+
+1. Issue the following command to check your internal IP address:(Figure 2)
+
+----
+ifconfig
+----
+.Open a new Terminal
+image::terminal.png[]
+.Execute the ifconfig
+image::ifconfig.png[]
+
+You will see an output like the following:
+
+
+----
+docker0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+    inet 172.17.0.1  netmask 255.255.0.0  broadcast 0.0.0.0
+    ether 02:42:e0:e7:1c:72  txqueuelen 0  (Ethernet)
+    RX packets 0  bytes 0 (0.0 B)
+    RX errors 0  dropped 0  overruns 0  frame 0
+    TX packets 0  bytes 0 (0.0 B)
+    TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+enp0s3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+    inet 10.0.2.15  netmask 255.255.255.0  broadcast 10.0.2.255
+    inet6 fe80::9853:7c72:8e9a:ee42  prefixlen 64  scopeid 0x20<link>
+    ether 08:00:27:1c:15:57  txqueuelen 1000  (Ethernet)
+    RX packets 20815  bytes 23549534 (22.4 MiB)
+    RX errors 0  dropped 0  overruns 0  frame 0
+    TX packets 4247  bytes 327550 (319.8 KiB)
+    TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+    inet 127.0.0.1  netmask 255.0.0.0
+    inet6 ::1  prefixlen 128  scopeid 0x10<host>
+    loop  txqueuelen 1  (Local Loopback)
+    RX packets 4  bytes 340 (340.0 B)
+    RX errors 0  dropped 0  overruns 0  frame 0
+    TX packets 4  bytes 340 (340.0 B)
+    TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+virbr0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+    inet 192.168.122.1  netmask 255.255.255.0  broadcast 192.168.122.255
+    ether 52:54:00:47:88:a3  txqueuelen 1000  (Ethernet)
+    RX packets 0  bytes 0 (0.0 B)
+    RX errors 0  dropped 0  overruns 0  frame 0
+    TX packets 0  bytes 0 (0.0 B)
+    TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+    ...
+----
+[red]*Note:* You will need to copy the information of the *inet* for the Ethernet connection that starts with **enpXXXX** and has the following pattern: **192.168.X.X** or **10.X.X.X**. If you have two Ethernet interfaces, use the one with the higher initial value.
+That will be your **OPENSHIFT-SERVER-IP** value to replace now on.
+
+Start your OpenShift cluster with typing the following command in your terminal (command line):
+
+
+  oc-cluster up agileintegration --public-hostname <OPENSHIFT-SERVER-IP> --routing-suffix=apps.<OPENSHIFT-SERVER-IP>.nip.io
+
+
+You will see an output like the following:
+
+----
+    # Using client for ocp v3.5.5.31
+    [INFO] Created self signed certs. You can avoid self signed certificates warnings by trusting this certificate: /home/ec2-user/.oc/certs/master.server.crt
+    [INFO] Running a previously created cluster
+    oc cluster up --version v3.5.5.31 --image registry.access.redhat.com/openshift3/ose --public-hostname 127.0.0.1 --routing-suffix apps.127.0.0.1.nip.io --host-data-dir /home/ec2-user/.oc/profiles/test/data --host-config-dir /home/ec2-user/.oc/profiles/test/config --host-pv-dir /home/ec2-user/.oc/profiles/test/pv --use-existing-config -e TZ=EDT
+    -- Checking OpenShift client ... OK
+    -- Checking Docker client ... OK
+    -- Checking Docker version ... OK
+    -- Checking for existing OpenShift container ... OK
+    -- Checking for registry.access.redhat.com/openshift3/ose:v3.5.5.31 image ... OK
+    -- Checking Docker daemon configuration ... OK
+    -- Checking for available ports ...
+       WARNING: Binding DNS on port 8053 instead of 53, which may not be resolvable from all clients.
+    -- Checking type of volume mount ...
+       Using nsenter mounter for OpenShift volumes
+    -- Creating host directories ... OK
+    -- Finding server IP ...
+       Using 172.31.28.24 as the server IP
+    -- Starting OpenShift container ...
+       Starting OpenShift using container 'origin'
+       Waiting for API server to start listening
+       OpenShift server started
+    -- Removing temporary directory ... OK
+    -- Checking container networking ... OK
+    -- Server Information ...
+       OpenShift server started.
+       The server is accessible via web console at:
+       https://10.0.2.15:8443
+
+   You are logged in as:
+       User:     developer
+       Password: developer
+
+   To login as administrator:
+       oc login -u system:admin
+
+-- Permissions on profile dir fixed
+-- Any user is sudoer. They can execute commands with '--as=system:admin'
+-- 10 Persistent Volumes are available for use
+-- User admin has been set as cluster administrator
+Switched to context "agileintegration".
+-- Adding an oc-profile=agileintegration label to every generated image so they can be later removed
+[INFO] Cluster created succesfully
+Restarting openshift. Done
+----
+
+Take notice of the developer user and password, you will use it later to login to the system. Also write down the web console URL address to login later in the lab.
+
+[red]*Note:* If you need to stop your cluster at any time issue the `oc-cluster down agileintegration` command.
+
+=== Add new templates to Openshift:
+
+[big]*Add (FUSE Integration Services)FIS template:*
+
+This template is used to build and deploy the FUSE app you built in lab 2
+
+----
+   oc create -f https://raw.githubusercontent.com/jboss-fuse/application-templates/master/fis-image-streams.json -n openshift --as=system:admin
+----
+[big]*Add MYSQL Database (ephemeral) template:*
+
+We need this template as we are planning to replace h2 database with MYSQL in this lab.
+
+----
+   oc create -f https://raw.githubusercontent.com/openshift/origin/master/examples/db-templates/mysql-ephemeral-template.json -n openshift --as=system:admin
+----
+
+You can try view the OpenShift console by going to https://&lt;OPENSHIFT-SERVER-IP&gt;:8443/console in the browser.
+
+image::00-openshift.png[]
+
+=== OpenShift in JBoss Developer Studio
+Open OpenShift Explorer view, on the top menu select *window -> Show view -> others*. a window will popup. Type [aqua]*openshift* in the search field. And select OpenShift Explorer
+
+image::00-view.png[]
+
+image::00-openshiftexplorer.png[]
+
+[red]*Note:* If you haven't created a connection previously:
+
+1. Click on *New Connection Wizard...* to configure OpenShift. Enter your web console URL address https://&lt;OPENSHIFT-SERVER-IP&gt;:8443 as the *Server* value and click on the *retrieve* link to access the token.
+You will be prompted with a Openshift login screen, use your user / password to login. you should see your token and you can copy that to your clipboard.
+1. Click on *Close*
+1. *UNCHECK* the *Save token* box and click Finish
+
+
+image::CreateOCPConnection.png[]
+
+==== Create a project in OpenShift
+In OpenShift Explorer, right click on the connection that connects to current OpenShift, and create a new project. *NEW -> Project*
+
+image::01-newproject.png[]
+
+And create Project Name: [aqua]*myfuseproject* with Display Name: [aqua]*My Fuse Project*
+
+image::02-projectname.png[]
+
+==== Create MYSQL database in OpenShift
+
+Inside the project we are going to first create a MYSQL database for our application. Right click on the new project name **myfuseproject** -> **New** -> **Application**
+
+image::03-newapp.png[]
+
+Under Server application source, type [aqua]*mysql* as the *filter text* and then select **mysql-ephemeral(database, mysql) - openshift** and click next.
+
+image::04-mysql.png[]
+
+Make sure to configure the following parameters:
+
+MYSQL_PASSWORD = [aqua]*password*
+
+MYSQL_ROOT_PASSWORD = [aqua]*password*
+
+MYSQL_USER = [aqua]*dbuser*
+
+image::05-param.png[]
+
+Click Finish, and you should see the mysql instance running in OpenShift explorer.
+
+image::06-mysqlcreated.png[]
+
+== Deploy to OpenShift
+
+=== Configure the Application
+
+Now it's time to deploy the application on OpenShift. We have been testing our application with a h2 Database, now it's time to run it with a real database! Add the following datasource setting under *src/main/resources* in **application.properties**
+
+----
+#tomcat ports
+server.port=9080
+#mysql specific
+mysql.service.name=mysql
+mysql.service.database=sampledb
+mysql.service.username=dbuser
+mysql.service.password=password
+
+#Database configuration
+spring.datasource.url = jdbc:mysql://${${mysql.service.name}.service.host}:${${mysql.service.name}.service.port}/${mysql.service.database}
+spring.datasource.username = ${mysql.service.username}
+spring.datasource.password = ${mysql.service.password}
+----
+
+Since we will be using MYSQL database, add the driver dependency in **pom.xml** file
+
+----
+<dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-jdbc</artifactId>
+</dependency>
+<dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <scope>runtime</scope>
+</dependency>
+----
+
+==== Update deployment variables and deploy to OpenShift
+
+Now we can finally push our application to OpenShift by right clicking on your project in project explorer. Select **Run As** -> **Run Configurations...**
+
+image::07-runmvn.png[]
+
+In the pop-up menu, select **Deploy myfuselab on OpenShift** on the left panel. Go to  **JRE** tab on the right, inside VM arguments, update kuberenets.master with your Openshift web console URL address **https://&lt;OPENSHIFT-SERVER-IP&gt;:8443** and kubernetes.namespace to [aqua]*myfuseproject* and username/password to [aqua]*developer/developer*. Click on **RUN**.
+
+image::08-runconfig.png[]
+
+To see everything running, in your browser, go to *https://&lt;OPENSHIFT-SERVER-IP&gt;:8443/console/* and login with **&lt;username&gt;/&lt;password&gt;** (for people using *oc cluster up or oc-cluster wrapper, it's developler/developer* ). Select **My Fuse Project** and you will see both application in the overview page.
+
+image::09-overview.png[]
+
+==== Create a Route
+
+To access the service outside OpenShift, go to **Application** -> **Service** on the left menu, and click **camel-ose-springboot-xml** in the service page.
+
+image::10-service.png[]
+
+Click on *Create route*.
+
+image::11-createroute.png[]
+
+Don't change anything and hit Create.
+
+==== Validation
+
+Access the API endpoint by typing following command in the terminal or type the URL(with no *curl*) in your VirtualBox host web browser.
+
+----
+curl  <YOUR_ROUTE>/customer/A01
+
+Example:
+  http://camel-ose-springboot-xml-myfuseproject.apps.10.0.2.15.nip.io/customer/A01
+----
+
+Verify that it is returning customer data in JSON format
+----
+[{"CUSTOMERID":"A01","VIPSTATUS":"Diamond","BALANCE":1000}]
+----
+
+==== FUSE Console
+
+To see the Camel route in action, in your OpenShift console, go to **Application** -> **pod** and select the **camel-ose-springboot-xml-1-xxxxx** which the status is running.
+
+image::12-podlist.png[]
+
+Click on *Open Java Console*, this will open the FUSE console which you can check the status of your route.
+
+image::13-pod.png[]
+
+Click on *Route Diagram* and call your API couple of times to see what happens.
+
+image::14-javaconsole.png[]
+
+=== MYSQL
+
+For those of you who want to see what is going on in database:
+
+  1. Click the Overview on the left side of your OCP console.(Figure 3)
+  2. Click on the blue circle (pod) for the MYSQL.(Figure 3)
+  3. Click on the Terminal tab (Figure 4, this will log you into the container that is running the MYSQL)
+  4. login to mysql by typeing [aqua]*mysql -udbuser -p sampledb*
+  5. Run a query by typing [aqua]*select * from customerdemo;*
+
+.Select the MYSQL pod
+image::podTerminal-1.png["test"]
+.Go to Terminal
+image::podTerminal-2.png[]
+
+----
+
+sh-4.2$ mysql -udbuser -p sampledb
+Enter password:
+
+mysql> select * from customerdemo;
++------------+-----------+---------+
+| customerID | vipStatus | balance |
++------------+-----------+---------+
+| A01        | Diamond   |    1000 |
+| A02        | Gold      |     500 |
++------------+-----------+---------+
+2 rows in set (0.00 sec)
+----
