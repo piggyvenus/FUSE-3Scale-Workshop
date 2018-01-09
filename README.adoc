@@ -1,22 +1,23 @@
-# Red Hat Agile API Integration Workshop - Microservices-based Managed API Integration
+= Red Hat Agile API Integration Workshop - Microservices-based Managed API Integration
 :imagesdir: img
+
 This very simple lab will guide you to create your very first Fuse-based SpringBoot microservice project running on OpenShift. There are 4 sections in the labs.
 
 * Create a project that read from a database
 * Expose a restful API endpoint to access data in the database
 * Deploy your application on OpenShift
-* Manage and control the access to your API using 3scale
+* Manage and control the access to developed API using 3scale
 
-## Red Hat 3scale API Management Platform Account
+== Red Hat 3scale API Management Platform Account
 This lab focuses on the deployment and administration of Red Hat 3Scale. One deployment topology available is known as a *hybrid* approach. A *hybrid* Red Hat 3Scale deployment topology is one in which the 3Scale API gateway is self-managed in your own environment. This self-managed API gateway is in two-way communication with the hosted Red Hat 3Scale SaaS API Management Platform (AMP).
 
-image::00-3scale-hybrid-deployment.png[image]
+image::00-3scale-hybrid-deployment.png[]
 
 The focus of lab 04 of this course is on this hybrid deployment topology. Subsequently, the lab 04 make heavy use of your account in the Red Hat 3Scale SaaS AMP. If you do not have a Red Hat 3Scale SaaS, please register for free trial one at: https://www.3scale.net/signup/.
 
 You will receive an email in your inbox to complete the signup process and activate your account.
 
-## Installation
+== Installation
 Before you begin, please make sure the following software are properly installed
 
 * JBoss Development Suite V1.3 (MacOX/Windows), sorry Linux users, you are on your own
@@ -27,7 +28,7 @@ Before you begin, please make sure the following software are properly installed
 	* Oracle Virtualbox 5.0.26
 	* Vagrant 1.8.1
 
-## Installing and setup development environment
+=== Installing and setup development environment
 Double click on the JBoss Development Suite, log in using your Red Hat Developer Site credentials.
 
 image::01-login.png[login]
@@ -47,7 +48,7 @@ image::04-plugin.png[]
 
 Red Hat JBoss Developer Studio will restart.
 
-## Installing and setup Container Development Kit
+=== Installing and setup Container Development Kit
 
 Under the folder where you installed the Development Suite, you will find a folder named **cdk** go to **${DEVSUITE_INSTALLTION_PATH}/cdk/components/rhel/rhel-ose/** edit file **Vagrantfile**
 
@@ -86,10 +87,10 @@ Login successful.
 Install Fuse image stream on OpenShift and Database template for this lab
 
 ```
-#FIS image
+=FIS image
 oc create -f https://raw.githubusercontent.com/jboss-fuse/application-templates/master/fis-image-streams.json -n openshift
 
-#MYSQL Database
+=MYSQL Database
 oc create -f https://raw.githubusercontent.com/openshift/origin/master/examples/db-templates/mysql-ephemeral-template.json -n openshift
 ```
 
@@ -119,14 +120,14 @@ In the popup window, log in as Developer using ID/PWD openshift-dev/devel. Selec
 
 image::06-connection.png[]
 
-## Windows Users
+== Windows Users
 
 - Make sure you disable  Hyper-V functionality under Control Panel
 - Add _config.ssh.insert\_key=false_ to **Vagrantfile** ${DEVSUITE_INSTALLATION_PATH}/cdk/components/rhel/rhel-ose/
 
 Thanks to @sigreen
 
-## FAQ
+== FAQ
 - How to install Maven?
 	- Go to https://maven.apache.org/install.html for detail instructions
 - Maven dependency not found?
