@@ -84,11 +84,13 @@ Select the Route by clicking anywhere on the blue background. you will see a del
 
 image::deleteRoute.png[]
 
+
 === Create a Route
 
 Create a new Route by dragging **Route** component from the *Routing* palette on the right. ReName the Route to [aqua]*customer* by changing the value of *Id* under the *Properties -> Detail* tab.
 
 image::09-Route.png[]
+
 
 === Add components to our Route
 
