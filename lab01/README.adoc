@@ -82,14 +82,14 @@ Double click on the **camel-context.xml** file under **Camel Contexts folder**, 
 
 Select the Route by clicking anywhere on the blue background. you will see a delete icon on top of the Route. Click on the delete icon and delete the simple-Route in your canvas.
 
-image::deleteRoute.png[]
+image::deleteroute.png[]
 
 
 === Create a Route
 
 Create a new Route by dragging **Route** component from the *Routing* palette on the right. ReName the Route to [aqua]*customer* by changing the value of *Id* under the *Properties -> Detail* tab.
 
-image::09-Route.png[]
+image::09-route.png[]
 
 
 === Add components to our Route
@@ -104,7 +104,6 @@ you can save your camel-context.xml file by clicking on the save icon on the men
 
 image::10-timer.png[]
 
-image::deleteRoute.png[]
 
 To read data from the datasource, select **SQL** component from the *Components* palette on the right to the Route. Under *Properties*-> *Advance* tab -> *Path*, set **Query** to [aqua]**select * from customerdemo**
 
