@@ -1,9 +1,9 @@
-== Lab two - Creating APIs
+= Lab two - Creating an API
 :imagesdir: img
 
 To expose this service as a HTTP API, We have to first replace our *Timer* with a *Restlet* Components.
 
-=== Delete the *Timer* component:
+== Delete *Timer* component:
 
 Hover over the *Timer* component and when you see a delete and connection icon, click on the delete.
 
@@ -34,7 +34,7 @@ image::MethRestlet.png[]
 
 {zwsp} +
 
-=== Update SQL configuration
+== Update SQL configuration
 
 Click on the *sql* component and go to the *Advance* tab in the property window. Under *Path* tab, append "[aqua]** where customerID=:#id**" to the existing select statement.
 
@@ -42,11 +42,11 @@ image::sql.png[]
 
 {zwsp} +
 
-=== Start your rest API
+== Start your rest API
 
 Right click on the *myfuselab* in the project explorer panel, select *Run As..* -> *Maven build* to start up the Camel application again.
 
-=== Test your API
+== Test your API
 Run the following command in your command line console/Terminal.*(Terminal can be found under OS menu "Application -> Favorites", or by clicking on the terminal icon in JDS)*
 
 image::terminal2.png[]

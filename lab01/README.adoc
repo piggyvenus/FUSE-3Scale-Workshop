@@ -1,5 +1,8 @@
-## Lab one - Create your first SprintBoot Fuse project
+= Lab one - Create your first SprintBoot Fuse project
 :imagesdir: img
+
+== Create a Fuse Integration Project
+
 In JBoss Developer Studio, Create a new project by selecting the *File -> New -> Fuse Integration Project*
 
 image::01-FIS-project.png[]

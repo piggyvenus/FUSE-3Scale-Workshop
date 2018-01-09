@@ -1,7 +1,7 @@
 = Lab four - API Management
 :imagesdir: img
 
-### Connecting your Customers API to 3scale API Management
+== Connecting your Customers API to 3scale API Management
 
 In order to connect your Customers API to 3scale, you need to follow three simple steps:
 
@@ -9,7 +9,7 @@ In order to connect your Customers API to 3scale, you need to follow three simpl
 1. Customize your Developer Portal and sign up as a developer.
 1. Integrate your API with 3scale using the API gateway.
 
-### Step 0: Review Pre-Reqs
+== Step 0: Review Pre-Reqs
 
 Before provisioning an on-premise API gateway environment, you will want to check on the following regarding your 3scale SaaS account :
 
@@ -44,7 +44,7 @@ image::00-accesstoken-e.png[]
 
 CAUTION: Don't forget to copy your token into a safe place as this is the only point where you'll be able to view it. If you fail to do so, you can always create a new access token.
 
-=== Step 1: Deploy APIcast using the OpenShift template
+== Step 1: Deploy APIcast using the OpenShift template
 
 
   * By default you are logged in as *developer* and can proceed to the next step.
@@ -120,7 +120,7 @@ Your API Gateways are now ready to receive traffic. OpenShift takes care of load
 If you wish to see the APIcast logs, you can do so by clicking **Applications > Pods**, selecting one of the pods and finally selecting **Logs**.
 
 
-=== Step 2: Define your API
+== Step 2: Define your API
 
 Your 3scale Admin Portal (http://&lt;YOURDOMAIN&gt;-admin.3scale.net) provides access to a number of configuration features.
 
@@ -219,7 +219,7 @@ image::08a-promote-production.png[]
 
 * Success! Your 3scale access control layer will now only allow authenticated calls through to your backend API.
 
-=== Step 3: Test APIcast
+== Step 3: Test APIcast
 
 1. Test that APIcast authorizes a valid call to your API, by executing a curl command with your valid developer's `user_key` to the `hostname` that you configured in the previous step:
 
@@ -242,7 +242,7 @@ When calling the API endpoint with an invalid key, the following messages appear
 
 You have sucessfully configured 3scale API Management and Gateway to access your API.
 
-=== Step 4: Register a new account using the Developer Portal
+== Step 4: Register a new account using the Developer Portal
 
 The focal point of your developers’ experience is the API developer portal, and the level of effort you put into it will determine the level of decreased support costs and increased developer engagement. 3scale provides a built-in, state-of-the-art CMS portal, making it very easy to create your own branded hub with a custom domain to manage developer interactions and increase API adoption.
 
