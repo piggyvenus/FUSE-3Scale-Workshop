@@ -149,7 +149,7 @@ image::05-authentication.png[]
 
 * Click on *edit API cast configuration*
 
-image::APICastConf.png[]
+image::APIcastConf.png[]
 
 * In the *API* section update the **private Base URL** with your API *service URL* [aqua]*http://camel-ose-springboot-xml:80*
 
@@ -207,13 +207,14 @@ Enter [aqua]*/customer/A01*.
 
 Click on the *Update the Staging Environment* to save the changes and then click on the *Back to Integration & Configuration* link.
 
+
 image::Update-staging.png[]
 
-24. Click on the **Promote v.1 to Production** button to promote your configuration from staging to production.
+* Click on the **Promote v.1 to Production** button to promote your configuration from staging to production.
 
 image::08a-promote-production.png[]
 
-25. Success! Your 3scale access control layer will now only allow authenticated calls through to your backend API.
+* Success! Your 3scale access control layer will now only allow authenticated calls through to your backend API.
 
 === Step 3: Test APIcast
 
