@@ -104,6 +104,8 @@ you can save your camel-context.xml file by clicking on the save icon on the men
 
 image::10-timer.png[]
 
+image::deleteRoute.png[]
+
 To read data from the datasource, select **SQL** component from the *Components* palette on the right to the Route. Under *Properties*-> *Advance* tab -> *Path*, set **Query** to [aqua]**select * from customerdemo**
 
 image::11-sqlcomponent.png[]
