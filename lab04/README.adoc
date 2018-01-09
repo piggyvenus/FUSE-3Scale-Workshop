@@ -165,7 +165,7 @@ image::APICastConf-BaseUrl.png[]
 
 [red]*Note:* the default mapping is the root ("/") of our API resources, something that we might want to avoid.
 
-image::mapping-rules.png[]
+image::Mapping-rules.png[]
 
 * Click on the *Metric or Method (Define)*  link.
 
@@ -183,7 +183,7 @@ System name: [aqua]*customer_get*
 
 Description: [aqua]*Method to return a customer by customer id*
 
-image::New-Method.png[]
+image::new-method.png[]
 
 * Click on *Update Method*
 
@@ -207,7 +207,7 @@ Enter [aqua]*/customer/A01*.
 
 Click on the *Update the Staging Environment* to save the changes and then click on the *Back to Integration & Configuration* link.
 
-image::update-staging.png[]
+image::Update-staging.png[]
 
 24. Click on the **Promote v.1 to Production** button to promote your configuration from staging to production.
 
