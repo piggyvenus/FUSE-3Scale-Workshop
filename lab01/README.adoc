@@ -4,17 +4,17 @@ In JBoss Developer Studio, Create a new project by selecting the *File -> New ->
 
 image::01-FIS-project.png[]
 
+{zwsp} +
 Enter [aqua]**myfuselab** as the project name, and click *Next*
 
 image::projectName.png[]
 
-[red]*NOTE:* You MUST select **2.18.1.redhat-000021** as the Camel Version!!
-
-Click *Next*
+CAUTION: You MUST select **2.18.1.redhat-000021** as the Camel Version!!
 
 image::02-runtime.png[]
 
-In Advance project setup, choose **Use a predefined template** and select **Fuse on OpenShift** -> **SprintBoot on OpenShift** and click *Finish*
+{zwsp} +
+Click *Next*, in Advance project setup, choose **Use a predefined template** and select **Fuse on OpenShift** -> **SprintBoot on OpenShift** and click *Finish*
 
 image::03-template.png[]
 
@@ -43,7 +43,7 @@ spring.datasource.platform = h2
 
 image::propertie.png[]
 
-[red]*NOTE:* we are using H2 in memory database for testing. And thanks to autowiring in SpringBoot, it is now automatically loaded and wired as the default datasource to the Camel context.
+NOTE: we are using H2 in memory database for testing. Thanks to autowiring in SpringBoot, it is now automatically loaded and wired as the default datasource to the Camel context.
 
 === Create a SQL table
 
@@ -51,10 +51,12 @@ Create a new file under *src/main/resources* by right clicking on the folder its
 
 image::05-newfile.png[]
 
+{zwsp} +
 Type [aqua]*file* as the filter text , then choose **File** under Genetal folder and click next,
 
 image::createFile.png[]
 
+{zwsp} +
 In File, put [aqua]*schema.sql* as the file name, and make sure it's under the *myfuselab/src/main/resources* and click on *Finish*.
 
 image::06-schemasql.png[]
@@ -100,7 +102,7 @@ Under *Properties*-> *Advance* tab -> *Consumer*  tab, set **Repeat Count** to *
 
 you can save your camel-context.xml file by clicking on the save icon on the menu bar or simply by pushing *Ctrl+S*
 
-[red]*NOTE:* Make sure that the *Timer component* is selected by clicking on the timer component, otherwise you will not see the correct property tab.
+WARNING: Make sure that the *Timer component* is selected by clicking on the timer component, otherwise you will not see the correct property tab.
 
 image::10-timer.png[]
 
@@ -138,7 +140,7 @@ Before we start the application, add the database driver dependency in the *pom.
 </dependencies>
 ----
 
-[red]*NOTE:* Make sure all files have been saved by clicking on the *Save All* icon on the tool bar or by going to *File* menu and and pick *Save All*
+WARNING: Make sure all files have been saved by clicking on the *Save All* icon on the tool bar or by going to *File* menu and and pick *Save All*
 
 === Start the Fuse application
 
@@ -146,7 +148,8 @@ Right click on the **myfuselab** in the project explorer panel, select **Run As.
 
 image::14-mavenrun.png[]
 
-in the pop-up windown enter [aqua]**spring-boot:run** in *Goals* and select **Skip Tests**.
+{zwsp} +
+In the pop-up windown enter [aqua]**spring-boot:run** in *Goals* and select **Skip Tests**.
 
 image::15-springbootrun.png[]
 

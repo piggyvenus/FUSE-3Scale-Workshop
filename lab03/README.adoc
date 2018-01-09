@@ -4,18 +4,20 @@
 :imagesdir: img
 First, you will need to start your all-in-one OpenShift cluster.
 
-1. Open a Terminal window. (Figure 1)
+. Open a Terminal window. (Figure 1)
+. Issue the following command to check your internal IP address:(Figure 2)
 
-1. Issue the following command to check your internal IP address:(Figure 2)
+  ifconfig
 
-----
-ifconfig
-----
 .Open a new Terminal
 image::terminal.png[]
+
+{zwsp} +
+
 .Execute the ifconfig
 image::ifconfig.png[]
 
+{zwsp} +
 You will see an output like the following:
 
 
@@ -56,7 +58,7 @@ virbr0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
 
     ...
 ----
-[red]*Note:* You will need to copy the information of the *inet* for the Ethernet connection that starts with **enpXXXX** and has the following pattern: **192.168.X.X** or **10.X.X.X**. If you have two Ethernet interfaces, use the one with the higher initial value.
+IMPORTANT: You will need to copy the information of the *inet* for the Ethernet connection that starts with **enpXXXX** and has the following pattern: **192.168.X.X** or **10.X.X.X**. If you have two Ethernet interfaces, use the one with the higher initial value.
 That will be your **OPENSHIFT-SERVER-IP** value to replace now on.
 
 Start your OpenShift cluster with typing the following command in your terminal (command line):
@@ -113,9 +115,9 @@ Switched to context "agileintegration".
 Restarting openshift. Done
 ----
 
-Take notice of the developer user and password, you will use it later to login to the system. Also write down the web console URL address to login later in the lab.
+CAUTION: Take note of the developer user and password, you will use it later to login to the system. Also write down the web console URL address to login later in the lab.
 
-[red]*Note:* If you need to stop your cluster at any time issue the `oc-cluster down agileintegration` command.
+NOTE: If you need to stop your cluster at any time issue the `oc-cluster down agileintegration` command.
 
 === Add new templates to Openshift:
 
@@ -138,31 +140,41 @@ You can try view the OpenShift console by going to https://&lt;OPENSHIFT-SERVER-
 
 image::00-openshift.png[]
 
+{zwsp} +
+
 === OpenShift in JBoss Developer Studio
 Open OpenShift Explorer view, on the top menu select *window -> Show view -> others*. a window will popup. Type [aqua]*openshift* in the search field. And select OpenShift Explorer
 
 image::00-view.png[]
 
+{zwsp} +
+
 image::00-openshiftexplorer.png[]
 
-[red]*Note:* If you haven't created a connection previously:
+{zwsp} +
 
-1. Click on *New Connection Wizard...* to configure OpenShift. Enter your web console URL address https://&lt;OPENSHIFT-SERVER-IP&gt;:8443 as the *Server* value and click on the *retrieve* link to access the token.
-You will be prompted with a Openshift login screen, use your user / password to login. you should see your token and you can copy that to your clipboard.
-1. Click on *Close*
-1. *UNCHECK* the *Save token* box and click Finish
-
+TIP: If you haven't created a connection previously: +
+  1. Click on *New Connection Wizard...* to configure OpenShift. Enter your web console URL address https://&lt;OPENSHIFT-SERVER-IP&gt;:8443 as the *Server* value and click on the *retrieve* link to access the token.
+You will be prompted with a Openshift login screen, use your user / password to login. you should see your token and you can copy that to your clipboard. +
+  2. Click on *Close* +
+  3. *UNCHECK* the *Save token* box and click Finish
 
 image::CreateOCPConnection.png[]
+
+{zwsp} +
 
 ==== Create a project in OpenShift
 In OpenShift Explorer, right click on the connection that connects to current OpenShift, and create a new project. *NEW -> Project*
 
 image::01-newproject.png[]
 
+
+{zwsp} +
 And create Project Name: [aqua]*myfuseproject* with Display Name: [aqua]*My Fuse Project*
 
 image::02-projectname.png[]
+
+{zwsp} +
 
 ==== Create MYSQL database in OpenShift
 
@@ -170,10 +182,12 @@ Inside the project we are going to first create a MYSQL database for our applica
 
 image::03-newapp.png[]
 
+{zwsp} +
 Under Server application source, type [aqua]*mysql* as the *filter text* and then select **mysql-ephemeral(database, mysql) - openshift** and click next.
 
 image::04-mysql.png[]
 
+{zwsp} +
 Make sure to configure the following parameters:
 
 MYSQL_PASSWORD = [aqua]*password*
@@ -184,9 +198,12 @@ MYSQL_USER = [aqua]*dbuser*
 
 image::05-param.png[]
 
+{zwsp} +
 Click Finish, and you should see the mysql instance running in OpenShift explorer.
 
 image::06-mysqlcreated.png[]
+
+{zwsp} +
 
 == Deploy to OpenShift
 
@@ -229,13 +246,17 @@ Now we can finally push our application to OpenShift by right clicking on your p
 
 image::07-runmvn.png[]
 
+{zwsp} +
 In the pop-up menu, select **Deploy myfuselab on OpenShift** on the left panel. Go to  **JRE** tab on the right, inside VM arguments, update kuberenets.master with your Openshift web console URL address **https://&lt;OPENSHIFT-SERVER-IP&gt;:8443** and kubernetes.namespace to [aqua]*myfuseproject* and username/password to [aqua]*developer/developer*. Click on **RUN**.
 
 image::08-runconfig.png[]
 
+{zwsp} +
 To see everything running, in your browser, go to *https://&lt;OPENSHIFT-SERVER-IP&gt;:8443/console/* and login with **&lt;username&gt;/&lt;password&gt;** (for people using *oc cluster up or oc-cluster wrapper, it's developler/developer* ). Select **My Fuse Project** and you will see both application in the overview page.
 
 image::09-overview.png[]
+
+{zwsp} +
 
 ==== Create a Route
 
@@ -243,11 +264,13 @@ To access the service outside OpenShift, go to **Application** -> **Service** on
 
 image::10-service.png[]
 
+{zwsp} +
 Click on *Create route*.
 
 image::11-createroute.png[]
 
-Don't change anything and hit Create.
+{zwsp} +
+Don't change anything and hit *Create*.
 
 ==== Validation
 
@@ -271,29 +294,37 @@ To see the Camel route in action, in your OpenShift console, go to **Application
 
 image::12-podlist.png[]
 
+{zwsp} +
 Click on *Open Java Console*, this will open the FUSE console which you can check the status of your route.
 
 image::13-pod.png[]
 
+{zwsp} +
 Click on *Route Diagram* and call your API couple of times to see what happens.
 
 image::14-javaconsole.png[]
+
+{zwsp} +
 
 === MYSQL
 
 For those of you who want to see what is going on in database:
 
-  1. Click the Overview on the left side of your OCP console.(Figure 3)
-  2. Click on the blue circle (pod) for the MYSQL.(Figure 3)
-  3. Click on the Terminal tab (Figure 4, this will log you into the container that is running the MYSQL)
-  4. login to mysql by typeing [aqua]*mysql -udbuser -p sampledb*
-  5. Run a query by typing [aqua]*select * from customerdemo;*
+  . Click the Overview on the left side of your OCP console.(Figure 3)
+  . Click on the blue circle (pod) for the MYSQL.(Figure 3)
+  . Click on the Terminal tab (Figure 4, this will log you into the container that is running the MYSQL)
+  . login to mysql by typing [aqua]*mysql -udbuser -p sampledb*
+  . Run a query by typing [aqua]*select * from customerdemo;*
 
 .Select the MYSQL pod
-image::podTerminal-1.png["test"]
+image::podTerminal-1.png[]
+
+{zwsp} +
+
 .Go to Terminal
 image::podTerminal-2.png[]
 
+{zwsp} +
 ----
 
 sh-4.2$ mysql -udbuser -p sampledb

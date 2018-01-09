@@ -42,7 +42,7 @@ image::00-accesstoken-d.png[]
 
 image::00-accesstoken-e.png[]
 
-[red]*Note:* Don't forget to copy your token into a safe place as this is the only point where you'll be able to view it. If you fail to do so, you can always create a new access token.
+CAUTION: Don't forget to copy your token into a safe place as this is the only point where you'll be able to view it. If you fail to do so, you can always create a new access token.
 
 === Step 1: Deploy APIcast using the OpenShift template
 
@@ -56,9 +56,8 @@ Otherwise login into OpenShift using the `oc login` command from the OpenShift C
 
 You should see Login successful. in the output.
 
-[red]*Note:* Make sure that you are in the *myfuseproject* by running the following command:
-
-    oc project myfuseproject
+WARNING: Make sure that you are in the *myfuseproject* by running the following command: +
+*oc project myfuseproject*
 
     * Create a new secret to reference your admin portal configuration.
 
@@ -66,7 +65,7 @@ You should see Login successful. in the output.
 
 Here *&lt;ACCESS_TOKEN&gt;* is an Access Token (not a Service Token) for the 3scale Account Management API, and **&lt;DOMAIN&gt;-admin.3scale.net** is the URL of your 3scale Admin Portal.
 
-[red]*Note:* You got this access token and domain in the Pre-Reqs section.
+NOTE: You got this access token and domain in the Pre-Reqs section.
 The response should look like this:
 
     secret/apicast-configuration-url-secret
@@ -94,14 +93,17 @@ Change the value of *Hostname* to [aqua]*customer-api-staging.<OPENSHIFT-SERVER-
 
 image::21-openshift-route-config.png[]
 
+{zwsp} +
 Now add the production route. This time select *Applications -> Routes* from the left menu.
 
 image::22-applications-routes.png[]
 
+{zwsp} +
 Click on the *Create Route* button.
 
 image::23-create-route.png[]
 
+{zwsp} +
 Fill in the information.
 
 **Name:** [aqua]*apicast-production*
@@ -110,6 +112,7 @@ Fill in the information.
 
 image::24-production-route.png[]
 
+{zwsp} +
 Click on the *Create* button in the bottom of the page to save the production route.
 
 Your API Gateways are now ready to receive traffic. OpenShift takes care of load-balancing of incoming requests to the route across the two running APIcast instances.
@@ -153,17 +156,15 @@ image::APIcastConf.png[]
 
 * In the *API* section update the **private Base URL** with your API *service URL* [aqua]*http://camel-ose-springboot-xml:80*
 
-* In the *API GATEWAY* section update the *Staging Public Base URL* and *Production Public Base URL*. If you have used the same value provided in this lab they will be as follow:
+* In the *API GATEWAY* section update the *Staging Public Base URL* and *Production Public Base URL*. If you have used the same value provided in this lab they will be as follow: +
+*Staging Public Base URL:* [auqa]*http://customer-api-staging.<OPENSHIFT-SERVER-IP>.nip.io:80* +
+*Production Public Base URL:* [aqua]*http://customer-api-production.<OPENSHIFT-SERVER-IP>.nip.io:80*
 
-Staging Public Base URL: [auqa]*http://customer-api-staging.<OPENSHIFT-SERVER-IP>.nip.io:80*
-
-Production Public Base URL: [aqua]*http://customer-api-production.<OPENSHIFT-SERVER-IP>.nip.io:80*
+NOTE: We are using the internal API service name, as API and 3Scale APICast are deploying inside the same OpenShift cluster.
 
 image::APICastConf-BaseUrl.png[]
 
 * Expand the **mapping rules** section to define the allowed methods on our exposed API.
-
-[red]*Note:* the default mapping is the root ("/") of our API resources, something that we might want to avoid.
 
 image::Mapping-rules.png[]
 
@@ -177,11 +178,11 @@ image::07b-new-method.png[]
 
 * Fill in the information for your Fuse Method.
 
-Friendly name: [aqua]*Get Customers*
+*Friendly name:* [aqua]*Get Customers*
 
-System name: [aqua]*customer_get*
+*System name:* [aqua]*customer_get*
 
-Description: [aqua]*Method to return a customer by customer id*
+*Description:* [aqua]*Method to return a customer by customer id*
 
 image::new-method.png[]
 
@@ -199,7 +200,9 @@ image::07b-edit-mapping-rule.png[]
 
 * Select *customer_get* as Method.
 
-image::customer-get-rule.pnred]*Note:* We are using the internal API service, as we are deploying our services inside the same OpenShift cluster.
+NOTE: the default mapping is the root ("/") of our API resources, something that we might want to avoid.
+
+image::customer-get-rule.png[]
 
 Scroll down to the **API Test GET request**.
 
@@ -266,7 +269,7 @@ image::11-visit-devportal.png[]
 
 image::12-devportal-overview.png[]
 
-[red]*Note:* We will edit our portal to update it with the correct information and to add the shadowman cool logo.
+NOTE: We will edit our portal to update it with the correct information and to add the shadowman cool logo.
 
 1. Go back to your admin portal browser tab and search the content sub-sections for the `Layouts `and select the `</> Main layout`
 
@@ -290,7 +293,7 @@ image::15-homepage-devportal.png[]
 
 1. Update the API call examples to reflect your real Fuse API calls.
 
-[red]*Note:* Use your production base url and add your defined methods. Dont worry if you don't have the "real" output, it won't affect the rest of the lab.
+NOTE: Use your production base url and add your defined methods. Dont worry if you don't have the "real" output, it won't affect the rest of the lab.
 
 1. Refresh your Developer Portal's browser tab to check the changes. Your Developer Portal should look like this:
 
@@ -304,7 +307,7 @@ image::16a-signup-limited.png[]
 
 image::16b-signup-form.png[]
 
-[red]*Note:* Use an email address you can actually access.
+NOTE: Use an email address you can actually access.
 
 1. Check your email and click on the `activate` link.
 
@@ -326,4 +329,4 @@ image::16f-dev-signin.png[]
 
 image::16g-user-key.png[]
 
-[red]*Note:* Copy down this key as it is used to authenticate yourself to the managed API.
+NOTE: Copy down this key as it is used to authenticate yourself to the managed API.
