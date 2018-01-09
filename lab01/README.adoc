@@ -82,7 +82,7 @@ Double click on the **camel-context.xml** file under **Camel Contexts folder**, 
 
 Select the Route by clicking anywhere on the blue background. you will see a delete icon on top of the Route. Click on the delete icon and delete the simple-Route in your canvas.
 
-image::08-deleteRoute.png[]
+image::deleteRoute.png[]
 
 === Create a Route
 
