@@ -44,7 +44,7 @@ Run the following command in your command line console/Terminal.*(Terminal can b
 
 image::terminal2.png[]
 
-image::terminal.png[]
+image::Terminal.png[]
 
 ```
 curl -i http://localhost:8080/customer/A01
