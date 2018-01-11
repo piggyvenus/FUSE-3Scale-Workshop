@@ -1,24 +1,28 @@
 = Lab four - API Management
+:icons: font
+
+:stylesdir: ../styles
+:stylesheet: mystyle.css
 :imagesdir: img
 
 == Connecting your Customers API to 3scale API Management
 
 In order to connect your Customers API to 3scale, you need to follow three simple steps:
 
-1. Access your 3scale Admin Portal and set up your first service.
-1. Customize your Developer Portal and sign up as a developer.
-1. Integrate your API with 3scale using the API gateway.
+. Access your 3scale Admin Portal and set up your first service.
+. Customize your Developer Portal and sign up as a developer.
+. Integrate your API with 3scale using the API gateway.
 
 == Step 0: Review Pre-Reqs
 
 Before provisioning an on-premise API gateway environment, you will want to check on the following regarding your 3scale SaaS account :
 
-1. 3scale Domain
+. 3scale Domain
     * You should know what the domain name is of your 3scale SaaS accoount is.
 
     * The name of your 3scale domain is referenced in the URL to your Administrative Portal of the 3scale SaaS environment. ie: https://&lt;YOURDOMAIN&gt;-admin.3scale.net/p/admin/dashboard.
 
-1. 3scale Access Token
+. 3scale Access Token
     * To get an Access Token, you can easily create one by navigating to:
 
 Gear Icon in top right corner (*Figure 1*) -> Personal Settings (*Figure 2*)-> Tokens (*Figure 3*)-> Add Access Token (*Figure 4*)
@@ -221,7 +225,7 @@ image::08a-promote-production.png[]
 
 == Step 3: Test APIcast
 
-1. Test that APIcast authorizes a valid call to your API, by executing a curl command with your valid developer's `user_key` to the `hostname` that you configured in the previous step:
+. Test that APIcast authorizes a valid call to your API, by executing a curl command with your valid developer's `user_key` to the `hostname` that you configured in the previous step:
 
 
     curl -i "http://customer-api-production.<OPENSHIFT-SERVER-IP>.nip.io:80/myfuselab/customer/all?user_key=YOUR_USER_KEY" --insecure
@@ -230,7 +234,7 @@ You should see the following messages:
 
   [{customerID=A01, vipStatus=Diamond, balance=1000}]
 
-2. Test that APIcast does not authorize an invalid call to your API.
+. Test that APIcast does not authorize an invalid call to your API.
 
 
     curl -i "http://customer-api-production.<OPENSHIFT-SERVER-IP>.nip.io:80/myfuselab/customer/all?user_key=INVALID_KEY" --insecure
@@ -289,9 +293,9 @@ image::14-publish-devportal.png[]
 
 image::15-homepage-devportal.png[]
 
-1. Change all the code `Echo` references in the homepage code for `Customer`.
+. Change all the code `Echo` references in the homepage code for `Customer`.
 
-1. Update the API call examples to reflect your real Fuse API calls.
+. Update the API call examples to reflect your real Fuse API calls.
 
 NOTE: Use your production base url and add your defined methods. Dont worry if you don't have the "real" output, it won't affect the rest of the lab.
 

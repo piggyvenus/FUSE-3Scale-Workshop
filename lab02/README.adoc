@@ -1,4 +1,8 @@
 = Lab two - Creating an API
+:icons: font
+
+:stylesdir: ../styles
+:stylesheet: mystyle.css
 :imagesdir: img
 
 To expose this service as a HTTP API, We have to first replace our *Timer* with a *Restlet* Components.

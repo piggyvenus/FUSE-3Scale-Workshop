@@ -1,7 +1,12 @@
 = Lab three - Deploying to OpenShift
+:icons: font
+
+:stylesdir: ../styles
+:stylesheet: mystyle.css
+:imagesdir: img
 
 == Start your OpenShift Cluster
-:imagesdir: img
+
 First, you will need to start your all-in-one OpenShift cluster.
 
 . Open a Terminal window. (Figure 1)

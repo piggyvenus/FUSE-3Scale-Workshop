@@ -1,4 +1,8 @@
 = Lab one - Create your first SprintBoot Fuse project
+:icons: font
+
+:stylesdir: ../styles
+:stylesheet: mystyle.css
 :imagesdir: img
 
 == Create a Fuse Integration Project
