@@ -1,9 +1,11 @@
-= Lab four - API Management
 :icons: font
 
 :stylesdir: ../styles
 :stylesheet: mystyle.css
 :imagesdir: img
+
+= Lab four - API Management
+
 
 == Connecting your Customers API to 3scale API Management
 
